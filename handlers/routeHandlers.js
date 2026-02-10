@@ -8,6 +8,14 @@ export async function handleGet(res) {
   sendResponse(res, 200, "application/json", JSON.stringify(data));
 }
 
+export async function handlePost(req, res) {
+    try {
+        
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 export async function handleLivePrice(req, res) {
   res.statusCode = 200;
   res.setHeader("Content-Type", "text/event-stream");
@@ -17,7 +25,7 @@ export async function handleLivePrice(req, res) {
   const timer = setInterval(() => {
     const data = getData();
     res.write(`data: ${JSON.stringify(data)} \n\n`);
-  }, 5000);
+  }, 1000);
 
   req.on("close", () => {
     clearInterval(timer);
