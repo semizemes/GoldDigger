@@ -15,7 +15,6 @@ export async function serveStatic(req, res, baseDir) {
     const content = await fs.readFile(filePath);
     sendResponse(res, 200, getContentType(ext), content);
   } catch (error) {
-    console.log(error);
     if (error.code == "ENOENT") {
       const content = await fs.readFile(path.join(baseDir, "public", "404.html"));
       sendResponse(res, 404, getContentType(ext), content)

@@ -1,10 +1,8 @@
 import { mockDataSender } from "../data.js/mockDataSender.js";
 
-let currentData = {
+export function getData() {
+  return {
   price: mockDataSender(),
   timeStamp: Date.now(),
-};
-
-export function getData() {
-  return currentData
+}
 }
