@@ -13,9 +13,9 @@ export async function handleLivePrice(req, res) {
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
-  const data = getData();
 
   const timer = setInterval(() => {
+    const data = getData();
     res.write(`data: ${JSON.stringify(data)} \n\n`);
   }, 5000);
 
