@@ -9,8 +9,6 @@ let currentTime;
 buyForm.addEventListener("submit", async function (event) {
   event.preventDefault()
 
-  dialog.showModal()
-
   const investedMoney = document.getElementById('investment-amount').value
   const goldPrice = livePrice
   const timeStamp = currentTime
@@ -25,6 +23,8 @@ buyForm.addEventListener("submit", async function (event) {
 
   console.log(`${formData.time}, amount paid: £${formData.paidMoney}, price per Oz: £${formData.goldPrice}, gold sold: ${formData.sold} 0z`)
   
+  document.getElementById("investment-summary").innerHTML = `You just bought ${formData.sold} ounces (ozt) for £${formData.paidMoney}. You will receive documentation shortly.`
+  dialog.showModal()
 
   try {
     const response = await fetch("/api", {
