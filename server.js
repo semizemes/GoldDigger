@@ -1,6 +1,6 @@
 import http from "node:http";
 import { serveStatic } from "./utils/serveStatic.js";
-import { handleGet, handleLivePrice } from "./handlers/routeHandlers.js";
+import { handleGet, handleLivePrice, handlePost } from "./handlers/routeHandlers.js";
 
 const PORT = process.env.PORT || 8000;
 
@@ -11,7 +11,7 @@ const server = http.createServer(async (req, res) => {
     if (req.method == "GET") {
       return await handleGet(res);
     }else if (req.method == "POST") {
-      // return await 
+      return await handlePost(req, res)
     }
   } else if (req.url == "/api/live") {
       return await handleLivePrice(req, res);

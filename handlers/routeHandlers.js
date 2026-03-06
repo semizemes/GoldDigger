@@ -4,16 +4,21 @@ import { sendResponse } from "../utils/sendResponse.js";
 
 export async function handleGet(res) {
   const data = getData();
-  livePrieEvents.emit("price-updated", data);
   sendResponse(res, 200, "application/json", JSON.stringify(data));
 }
 
 export async function handlePost(req, res) {
-    try {
-        
-    } catch (err) {
-        console.log(err);
+  try {
+    let body = "";
+
+    for await (const chunk of req) {
+      body += chunk;
     }
+    livePrieEvents.emit("price-updated", JSON.parse(body));
+    sendResponse(res, 200, "application/json", body);
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 export async function handleLivePrice(req, res) {
@@ -25,7 +30,7 @@ export async function handleLivePrice(req, res) {
   const timer = setInterval(() => {
     const data = getData();
     res.write(`data: ${JSON.stringify(data)} \n\n`);
-  }, 1000);
+  }, 3000);
 
   req.on("close", () => {
     clearInterval(timer);

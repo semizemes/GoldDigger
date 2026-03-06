@@ -1,5 +1,6 @@
 const priceSource = new EventSource("/api/live")
 const buyForm = document.getElementById("buy-form")
+const dialog = document.getElementById("dialog")
 
 let livePrice;
 let currentTime;
@@ -7,6 +8,8 @@ let currentTime;
 
 buyForm.addEventListener("submit", async function (event) {
   event.preventDefault()
+
+  dialog.showModal()
 
   const investedMoney = document.getElementById('investment-amount').value
   const goldPrice = livePrice
@@ -20,8 +23,11 @@ buyForm.addEventListener("submit", async function (event) {
     sold: soldValue
   }    
 
+  console.log(`${formData.time}, amount paid: £${formData.paidMoney}, price per Oz: £${formData.goldPrice}, gold sold: ${formData.sold} 0z`)
+  
+
   try {
-    const response = fetch("./api", {
+    const response = await fetch("/api", {
       method: "POST",
       headers: {
         "Content-Type" : "application/json"
@@ -39,10 +45,13 @@ buyForm.addEventListener("submit", async function (event) {
   }
 })
 
+document.getElementById("close-btn").addEventListener("click", () => {
+  dialog.close()
+})
+
 
 priceSource.onmessage = (event) => {
   const data = JSON.parse(event.data)
-  console.log(data);
   
   livePrice = data.price
   currentTime = data.timeStamp
